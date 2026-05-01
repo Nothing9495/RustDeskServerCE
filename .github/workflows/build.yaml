@@ -26,12 +26,13 @@ jobs:
           submodules: recursive
 
       - name: Set tag name
+        shell: pwsh
         run: |
-          if "${{ github.event_name }}" == "workflow_dispatch" {
-            echo "GIT_TAG=build-manual" >> $env:GITHUB_ENV
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            "GIT_TAG=build-manual" >> $env:GITHUB_ENV
           } else {
             $T = "${{ github.ref }}" -replace '^refs/tags/', ''
-            echo "GIT_TAG=$T" >> $env:GITHUB_ENV
+            "GIT_TAG=$T" >> $env:GITHUB_ENV
           }
 
       - name: Install toolchain
